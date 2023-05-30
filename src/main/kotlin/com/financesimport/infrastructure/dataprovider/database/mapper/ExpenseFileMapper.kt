@@ -7,5 +7,6 @@ import com.financesimport.infrastructure.dataprovider.database.entity.ExpenseFil
 fun ExpenseFile.toEntity() =
     ExpenseFileEntity(
         id = this.id,
-        objectKey = this.objectKey!!
+        objectKey = this.objectKey!!,
+        items = this.items.map { it.toEntity() }
     )
