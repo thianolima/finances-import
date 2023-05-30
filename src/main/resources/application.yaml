@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: finances-import
+  h2:
+    console:
+      enabled: true
+      path: /finances-import-db-console
+      settings:
+        trace: false
+        web-allow-others: false
+  datasource:
+    username: ${dbuser:admin}
+    password: ${dbpassword:}
+    url: ${dburl:jdbc:h2:mem:finances-import-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        use_sql_comments: true
+        format_sql: true
+  cloud:
+    aws:
+      secretsmanager:
+        region: us-east-1
+        endpoint: http://localhost:4566
+      parameterstore:
+        region: us-east-1
+        endpoint: http://localhost:4566
+      s3:
+        region: us-east-1
+        endpoint: http://localhost:4566
+      sqs:
+        region: us-east-1
+        endpoint: http://localhost:4566
+      credentials:
+        access-key: fake-access
+        secret-key: fake-secret
+
+  config:
+    import:
+      - aws-secretsmanager:/secret/db-credential
+#     - optional:aws-secretsmanager:/secrets/optional-secret
+#      - aws-parameterstore:/config/
+#     - optional:aws-parameterstore:/config/optional-store
+
+#ACTUATOR
+management:
+    endpoints:
+      enable-by-default: false
+      web:
+        exposure:
+          include: 'health, metrics, prometheus, info, env'
+    endpoint:
+      health:
+        enabled: true
+        show-details: always
+      metrics:
+        enabled: true
+      prometheus:
+        enabled: true
+      info:
+        enabled: true
