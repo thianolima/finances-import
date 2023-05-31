@@ -1,6 +1,5 @@
 package com.financesimport.infrastructure.dataprovider.database.entity
 
-import com.financesimport.core.model.ExpenseFileItem
 import org.hibernate.annotations.DynamicUpdate
 import javax.persistence.*
 
