@@ -5,8 +5,6 @@ import com.financesimport.core.model.ExpenseFile
 import com.financesimport.infrastructure.dataprovider.database.mapper.toEntity
 import com.financesimport.infrastructure.dataprovider.database.repository.ExpenseFileRepository
 import org.springframework.stereotype.Service
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 import javax.transaction.Transactional
 
 @Service
