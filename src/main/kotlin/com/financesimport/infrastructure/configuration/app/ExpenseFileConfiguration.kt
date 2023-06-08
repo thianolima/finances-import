@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration
 class ExpenseFileConfiguration {
 
     @Bean
-    fun importtExpenseFileUseCase(saveExpenseFile: SaveExpenseFile,
-                                  convertExcelFileToExpenseFile: ConvertExcelFileToExpenseFile,
-                                  getObjectStorage : GetObjectStorage) =
+    fun importExpenseFileUseCase(saveExpenseFile: SaveExpenseFile,
+                                 convertExcelFileToExpenseFile: ConvertExcelFileToExpenseFile,
+                                 getObjectStorage : GetObjectStorage) =
         ImportExpenseFileUseCase(saveExpenseFile, convertExcelFileToExpenseFile, getObjectStorage)
 }

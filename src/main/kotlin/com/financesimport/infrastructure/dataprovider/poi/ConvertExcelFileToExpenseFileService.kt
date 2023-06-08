@@ -6,6 +6,7 @@ import com.financesimport.core.model.ExpenseFileItem
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.time.LocalDate
@@ -31,8 +32,10 @@ class ConvertExcelFileToExpenseFileService (
                     2 -> amount = toDouble(cell.stringCellValue)
                 }
             }
-            if (amount == 0.00) break
-            expenseItemList.add(ExpenseFileItem(buyDate, description, amount))
+            when(amount == 0.00) {
+                true -> break
+                false -> expenseItemList.add(ExpenseFileItem(buyDate, description, amount))
+            }
         }
         return ExpenseFile(expenseItemList)
     }
@@ -42,11 +45,21 @@ class ConvertExcelFileToExpenseFileService (
         try {
             return valueReplace.toDouble()
         }catch (e: Exception){
-            println("valor $value valorReplace $valueReplace erro $e.message")
+            log.error("valor $value valorReplace $valueReplace erro $e.message")
         }
         return 0.00
     }
 
-    private fun toLocalDate(value : String) =
-        LocalDate.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+    private fun toLocalDate(value : String) : LocalDate {
+        try {
+            return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        } catch (e: Exception) {
+            log.error("valor $value erro $e.message")
+        }
+        return LocalDate.now()
+    }
+
+    companion object {
+        val log = LoggerFactory.getLogger(this::class.java)!!
+    }
 }

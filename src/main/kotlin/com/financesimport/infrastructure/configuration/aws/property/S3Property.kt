@@ -8,6 +8,4 @@ import org.springframework.boot.context.properties.ConstructorBinding
 class S3Property (
     val region: String,
     val endpoint: String
-){
-
-}
+)

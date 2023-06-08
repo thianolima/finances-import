@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.7.5"
+	id("org.springframework.boot") version "2.7.12"
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
@@ -16,7 +16,9 @@ repositories {
 	mavenCentral()
 }
 
-extra["springAwsVersion"] = "3.0.0-M2"
+extra["springCloudAwsVersion"] = "3.0.0-M2"
+extra["springCloudVersion"] = "2021.0.7"
+
 
 dependencies {
 	// SPRING
@@ -53,6 +55,9 @@ dependencies {
 	implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 	implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs")
 
+	//SPRING CLOUD OPENFEIGN
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
 	// TEST
 	implementation("org.hamcrest:hamcrest:2.2")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.5.20")
@@ -63,7 +68,8 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:${property("springAwsVersion")}")
+		mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:${property("springCloudAwsVersion")}")
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
 	}
 }
 

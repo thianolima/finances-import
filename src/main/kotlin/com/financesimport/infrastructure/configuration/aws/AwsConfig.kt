@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration
 class AwsConfig (
     val awsCredentialsProperty: AwsCredentialsProperty
 ){
-
     @Bean
     fun awsCredentials(): AWSStaticCredentialsProvider {
         return AWSStaticCredentialsProvider(BasicAWSCredentials(
