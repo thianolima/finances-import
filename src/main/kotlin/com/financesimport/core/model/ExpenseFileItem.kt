@@ -7,6 +7,7 @@ data  class ExpenseFileItem (
     val description: String,
     val amount: Double,
     var status : StatusExpenseEnum = StatusExpenseEnum.IMPORTADO,
-    var payment : Boolean = false,
     var idfinance : String? = null
-)
+){
+    fun isPayment() : Boolean = !idfinance.isNullOrEmpty()
+}

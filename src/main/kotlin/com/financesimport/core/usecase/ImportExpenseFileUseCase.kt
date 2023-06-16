@@ -4,6 +4,7 @@ import com.financesimport.core.gateway.ConvertExcelFileToExpenseFile
 import com.financesimport.core.gateway.GetObjectStorage
 import com.financesimport.core.gateway.SaveExpenseFile
 import com.financesimport.core.gateway.SynchronizeExpenseFile
+import com.financesimport.core.model.ExpenseFile
 import org.slf4j.LoggerFactory
 
 class ImportExpenseFileUseCase(
@@ -22,6 +23,13 @@ class ImportExpenseFileUseCase(
         log.info("saving expense file")
         saveExpenseFile.execute(expenseFileSync)
     }
+
+    fun synchronize(expenseFile: ExpenseFile) : ExpenseFile =
+        expenseFile.items.map{
+            synchronize.syncPaymentData(it)
+        }.let {
+            ExpenseFile(it, expenseFile.objectKey)
+        }
 
     companion object {
         val log = LoggerFactory.getLogger(this::class.java)!!

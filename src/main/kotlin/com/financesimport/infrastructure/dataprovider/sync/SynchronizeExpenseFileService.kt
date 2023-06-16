@@ -23,7 +23,7 @@ class SynchronizeExpenseFileService (
             ExpenseFile(it, expenseFile.objectKey)
         }
 
-    private fun syncPaymentData(item: ExpenseFileItem): ExpenseFileItem =
+    override fun syncPaymentData(item: ExpenseFileItem): ExpenseFileItem =
         try{
             financeClient.getExpenseByBuyDateAndAmout(
                 item.amount,
@@ -42,7 +42,6 @@ class SynchronizeExpenseFileService (
             description = dto?.description ?: item.description,
             amount = dto?.amount ?: item.amount,
             status = StatusExpenseEnum.ATUALIZADO,
-            payment = !dto?.id.isNullOrEmpty(),
             idfinance = dto?.id
         )
 
