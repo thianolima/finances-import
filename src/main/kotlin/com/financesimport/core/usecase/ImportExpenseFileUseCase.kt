@@ -24,13 +24,6 @@ class ImportExpenseFileUseCase(
         saveExpenseFile.execute(expenseFileSync)
     }
 
-    fun synchronize(expenseFile: ExpenseFile) : ExpenseFile =
-        expenseFile.items.map{
-            synchronize.syncPaymentData(it)
-        }.let {
-            ExpenseFile(it, expenseFile.objectKey)
-        }
-
     companion object {
         val log = LoggerFactory.getLogger(this::class.java)!!
     }

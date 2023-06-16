@@ -20,43 +20,28 @@ class ConvertExcelFileToExpenseFileService (
     override fun execute(fileXLS: InputStream, objectKey: String): ExpenseFile {
         val workbook : Workbook = WorkbookFactory.create(fileXLS)
         val sheet: Sheet = workbook.getSheetAt(0)
-        var expenseItemList = ArrayList<ExpenseFileItem>()
+        val expenseItemList = ArrayList<ExpenseFileItem>()
         for (row in sheet) {
             var description : String = ""
             var amount : Double = 0.0
             var buyDate : LocalDate = LocalDate.now()
             for (cell in row) {
+                log.info("column ${cell.address.column} celValue ${cell.stringCellValue}")
+                if(cell.stringCellValue.isEmpty()) {
+                    break
+                }
                 when (cell.address.column) {
-                    0 -> buyDate = toLocalDate(cell.stringCellValue)
+                    0 -> buyDate = LocalDate.parse(cell.stringCellValue, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     1 -> description= cell.stringCellValue
-                    2 -> amount = toDouble(cell.stringCellValue)
+                    2 -> amount = cell.stringCellValue.replace(",", ".").toDouble()
                 }
             }
-            when(amount == 0.00) {
-                true -> break
-                false -> expenseItemList.add(ExpenseFileItem(buyDate, description, amount))
+            if(description.isEmpty()) {
+                break
             }
+            expenseItemList.add(ExpenseFileItem(buyDate, description, amount))
         }
         return ExpenseFile(expenseItemList, objectKey)
-    }
-
-    private fun toDouble(value : String) : Double {
-        val valueReplace = value.replace(",", ".")
-        try {
-            return valueReplace.toDouble()
-        }catch (e: Exception){
-            log.error("parse string $value to Double error $e.message")
-        }
-        return 0.00
-    }
-
-    private fun toLocalDate(value : String) : LocalDate {
-        try {
-            return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        } catch (e: Exception) {
-            log.error("parse string $value to LocalDate error $e.message")
-        }
-        return LocalDate.now()
     }
 
     companion object {
