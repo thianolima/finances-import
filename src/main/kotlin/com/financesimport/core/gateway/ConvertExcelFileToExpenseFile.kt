@@ -4,5 +4,5 @@ import com.financesimport.core.model.ExpenseFile
 import java.io.InputStream
 
 interface ConvertExcelFileToExpenseFile {
-    fun execute(fileXLS:InputStream):ExpenseFile
+    fun execute(fileXLS:InputStream, objectKey: String):ExpenseFile
 }

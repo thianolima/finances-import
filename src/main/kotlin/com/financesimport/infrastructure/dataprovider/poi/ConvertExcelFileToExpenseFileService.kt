@@ -17,7 +17,7 @@ class ConvertExcelFileToExpenseFileService (
 
 ) : ConvertExcelFileToExpenseFile {
 
-    override fun execute(fileXLS: InputStream): ExpenseFile {
+    override fun execute(fileXLS: InputStream, objectKey: String): ExpenseFile {
         val workbook : Workbook = WorkbookFactory.create(fileXLS)
         val sheet: Sheet = workbook.getSheetAt(0)
         var expenseItemList = ArrayList<ExpenseFileItem>()
@@ -37,7 +37,7 @@ class ConvertExcelFileToExpenseFileService (
                 false -> expenseItemList.add(ExpenseFileItem(buyDate, description, amount))
             }
         }
-        return ExpenseFile(expenseItemList)
+        return ExpenseFile(expenseItemList, objectKey)
     }
 
     private fun toDouble(value : String) : Double {
@@ -45,7 +45,7 @@ class ConvertExcelFileToExpenseFileService (
         try {
             return valueReplace.toDouble()
         }catch (e: Exception){
-            log.error("valor $value valorReplace $valueReplace erro $e.message")
+            log.error("parse string $value to Double error $e.message")
         }
         return 0.00
     }
@@ -54,7 +54,7 @@ class ConvertExcelFileToExpenseFileService (
         try {
             return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         } catch (e: Exception) {
-            log.error("valor $value erro $e.message")
+            log.error("parse string $value to LocalDate error $e.message")
         }
         return LocalDate.now()
     }

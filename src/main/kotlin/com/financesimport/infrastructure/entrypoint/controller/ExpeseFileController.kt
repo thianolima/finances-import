@@ -8,7 +8,7 @@ import java.net.URL
 
 @RestController
 @RequestMapping("/expenses/import")
-class ExpeseImportController(
+class ExpeseFileController(
     val generatePresignedUploadUrl: GeneratePresignedUploadUrl
 ) {
 

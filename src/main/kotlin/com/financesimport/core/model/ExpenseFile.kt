@@ -4,11 +4,12 @@ import java.util.*
 
 data class ExpenseFile (
     val id: String,
-    var objectKey: String? = null,
+    val objectKey: String,
     val items : List<ExpenseFileItem>
 ){
-    constructor(items: List<ExpenseFileItem>) : this(
+    constructor(items: List<ExpenseFileItem>, objectKey: String) : this(
         id = UUID.randomUUID().toString(),
+        objectKey = objectKey,
         items = items
     )
 }
