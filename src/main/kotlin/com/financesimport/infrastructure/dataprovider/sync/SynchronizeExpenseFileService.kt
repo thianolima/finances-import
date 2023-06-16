@@ -19,6 +19,18 @@ class SynchronizeExpenseFileService (
     override fun execute(expenseFile: ExpenseFile): ExpenseFile =
         expenseFile.items.map{
             syncPaymentData(it)
+                .run {
+                    when(this.isPayment()){
+                        true -> {
+                            log.info("found payment this expense id ${this.idfinance}")
+                            this
+                        }
+                        false -> {
+                            log.info("search last category with this describe: ${this.description}")
+                            this
+                        }
+                    }
+                }
         }.let {
             ExpenseFile(it, expenseFile.objectKey)
         }
@@ -41,7 +53,7 @@ class SynchronizeExpenseFileService (
             buyDate = dto?.buyDate ?: item.buyDate,
             description = dto?.description ?: item.description,
             amount = dto?.amount ?: item.amount,
-            status = StatusExpenseEnum.ATUALIZADO,
+            status = StatusExpenseEnum.SINCRONIZADO,
             idfinance = dto?.id
         )
 

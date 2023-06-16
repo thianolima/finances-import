@@ -1,5 +1,5 @@
 package com.financesimport.core.model
 
 enum class StatusExpenseEnum {
-    IMPORTADO, ATUALIZADO, CANCELADO, ENVIADO
+    IMPORTADO, SINCRONIZADO, CANCELADO, ENVIADO
 }
