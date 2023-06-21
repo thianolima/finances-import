@@ -6,4 +6,5 @@ import com.financesimport.core.model.ExpenseFileItem
 interface SynchronizeExpenseFile {
     fun execute(expenseFile : ExpenseFile) : ExpenseFile
     fun syncPaymentData(item: ExpenseFileItem): ExpenseFileItem
+    fun syncCategory(item: ExpenseFileItem): ExpenseFileItem
 }

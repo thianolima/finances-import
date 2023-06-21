@@ -7,5 +7,8 @@ fun ExpenseFileItem.toEntity() =
     ExpenseFileItemEntity(
         description = this.description,
         buyDate = this.buyDate,
-        amount = this.amount
+        amount = this.amount,
+        idexpense = this.idexpense,
+        idcategory = this.idcategory,
+        category = this.category
     )

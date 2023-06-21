@@ -11,5 +11,7 @@ data class ExpenseFileItemEntity (
     val description: String,
     val buyDate: LocalDate,
     val amount: Double,
-    var idfinance : String? = null
+    var idexpense : String? = null,
+    var idcategory : String? = null,
+    var category: String? = null
 )
